@@ -16,8 +16,7 @@ namespace Garage2.Models
 		// added Id
 		public int Id { get; set; }
 		// Car, Motorcycle etc. 
-		public string VehicleType { get; set; }
-
+		
         [Required]
         public string LicensePlate { get; set; }
 
