@@ -7,8 +7,10 @@ namespace Garage2.Models
 {
     public class ParkedVehicle
     {
-        // Car, Motorcycle etc. 
-        public string VehicleType { get; set; }
+		// added Id
+		public int Id { get; set; }
+		// Car, Motorcycle etc. 
+		public string VehicleType { get; set; }
 
         public string LicensePlate { get; set; }
 
