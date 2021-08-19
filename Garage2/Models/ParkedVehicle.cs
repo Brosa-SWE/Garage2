@@ -6,41 +6,48 @@ using System.Threading.Tasks;
 
 namespace Garage2.Models
 {
-    public class ParkedVehicle
-    {
-        // added Id
-        public int Id { get; set; }
-        
-        [Required]
-        [StringLength(30)]
-        // Car, Motorcycle etc. 
-        public VehicleType VehicleType { get; set; }
+	public class ParkedVehicle
+	{
+		// added Id
+		public int Id { get; set; }
 		
-				
-        [Required]
-        public string LicensePlate { get; set; }
 
+		// Here Vehicletype is of type VehicleType - Constraint might need to be changed from stringlength()
+		[Required]
+		[StringLength(30)]
+		// Car, Motorcycle etc. 
+		public VehicleType VehicleType { get; set; }
+		
+		//	Here we might need to add constraint min 3 max 15 ?
+		[Required]
+		public string LicensePlate { get; set; }
 
-        public string Color { get; set; }
+		// Here Maybe change this property to an enum isstead, like Vehicle type ?
+		public string Color { get; set; }
 
-        [Required]
-        // Volvo, Audi etc.
-        public String Make { get; set; }
+		// Here maybe limit length ?
+		[Required]
+		// Volvo, Audi etc.
+		public String Make { get; set; }
 
-        // V90, A6 etc.
-        public string Model { get; set; }
+		// Here we might add min/max length
+		// V90, A6 etc.
+		public string Model { get; set; }
 
-        [Required]
-        [Range(1, 6)]
-        public int Wheels { get; set; }
+		[Required]
+		[Range(1, 6)]
+		public int Wheels { get; set; }
 
-        [DataType(DataType.Time)]
-        [Display(Name = "Arrived Time")]
-        public DateTime ArrivalTime { get; set; }
+		[DataType(DataType.Time)]
+		[Display(Name = "Arrived Time")]
+		public DateTime ArrivalTime { get; set; }
 
-        // Parked or "Unparked / Removed from Garage" 
-        public String State { get; set; }
+		// here: Add an Departure time ? 
+
+		// here: Maybe change this property also to an enum, with defined states ?
+		// Parked or "Unparked / Removed from Garage" 
+		public String State { get; set; }
 
  
-    }
+	}
 }
