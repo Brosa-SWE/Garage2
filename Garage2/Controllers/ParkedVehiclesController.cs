@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Garage2.Data;
 using Garage2.Models;
+using Garage2.ViewModels;
 
 namespace Garage2.Controllers
 {
@@ -25,8 +26,9 @@ namespace Garage2.Controllers
             return View(await _context.ParkedVehicle.ToListAsync());
         }
 
-        // GET: ParkedVehicles/Details/5
-        public async Task<IActionResult> Details(int? id)
+
+		// GET: ParkedVehicles/Details/5
+		public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -49,10 +51,46 @@ namespace Garage2.Controllers
             return View();
         }
 
-        // POST: ParkedVehicles/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+		// TO BE CHANGED TO SEARCH
+		public async Task<IActionResult> CheckOut([Bind("LicensePlate")] ParkedVehicle vehicle)
+		{
+			var checkout = new CheckOutViewModel();
+			var vehicles = new List<ParkedVehicle>();
+			
+			checkout.message = "";
+			if ((vehicle != null) && (vehicle.LicensePlate != null) && (vehicle.LicensePlate.Length > 0))
+			{
+				checkout.Vehicles = await _context.ParkedVehicle.Where(v => v.LicensePlate.ToLower().Contains(vehicle.LicensePlate.ToLower())).ToListAsync();
+			}
+			else checkout.Vehicles = vehicles;
+			return View(checkout);
+		}
+
+		// TO HANDLE CHECKOUT AND SHOW RECIEPT
+		public async Task<IActionResult> CheckedOut(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
+
+			var parkedVehicle = await _context.ParkedVehicle
+				.FirstOrDefaultAsync(m => m.Id == id);
+			if (parkedVehicle == null)
+			{
+				return NotFound();
+			}
+
+			return View(parkedVehicle);
+		}
+
+
+
+
+		// POST: ParkedVehicles/Create
+		// To protect from overposting attacks, enable the specific properties you want to bind to.
+		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,VehicleType,LicensePlate,Color,Make,Model,Wheels,ArrivalTime,State")] ParkedVehicle parkedVehicle)
         {

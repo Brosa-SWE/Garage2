@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Garage2.Models
 {
-	public class ParkedVehicle
+	public class ParkedVehicle : IParkedVehicle
 	{
 		// added Id
 		public int Id { get; set; }
-		
+
 
 		// Removed constraints since this is now an ENUM
 		// Car, Motorcycle etc. 
@@ -50,6 +50,6 @@ namespace Garage2.Models
 		// Parked or "Unparked / Removed from Garage" 
 		public String State { get; set; }
 
- 
+
 	}
 }
