@@ -12,26 +12,27 @@ namespace Garage2.Models
 		public int Id { get; set; }
 		
 
-		// Here Vehicletype is of type VehicleType - Constraint might need to be changed from stringlength()
-		[Required]
-		[StringLength(30)]
+		// Removed constraints since this is now an ENUM
 		// Car, Motorcycle etc. 
 		public VehicleType VehicleType { get; set; }
-		
-		//	Here we might need to add constraint min 3 max 15 ?
+
+		// Added limit	
+		[StringLength(15)]
 		[Required]
 		public string LicensePlate { get; set; }
 
-		// Here Maybe change this property to an enum isstead, like Vehicle type ?
-		public string Color { get; set; }
+		// Changed to an enum instead
+		public VehicleColor Color { get; set; }
 
-		// Here maybe limit length ?
+		// Added max length
+		[StringLength(30)]
 		[Required]
 		// Volvo, Audi etc.
 		public String Make { get; set; }
 
-		// Here we might add min/max length
+		// Added max length
 		// V90, A6 etc.
+		[StringLength(30)]
 		public string Model { get; set; }
 
 		[Required]
@@ -42,9 +43,10 @@ namespace Garage2.Models
 		[Display(Name = "Arrived Time")]
 		public DateTime ArrivalTime { get; set; }
 
-		// here: Add an Departure time ? 
+		[DataType(DataType.Time)]
+		[Display(Name = "Departure Time")]
+		public DateTime DepartureTime { get; set; }
 
-		// here: Maybe change this property also to an enum, with defined states ?
 		// Parked or "Unparked / Removed from Garage" 
 		public String State { get; set; }
 
