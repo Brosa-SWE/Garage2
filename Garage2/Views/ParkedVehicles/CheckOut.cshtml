@@ -1,0 +1,60 @@
+﻿@model CheckOutViewModel
+
+@{
+	ViewData["Title"] = "Checkout";
+}
+
+<h1>Checkout Vehicle</h1>
+<h1>@Model.message</h1>
+<form asp-action="CheckOut">
+	<input type="text" name="LicensePlate" placeholder="Regnumber" />
+	<input type="submit" value="Find" />
+</form>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Vehicles.FirstOrDefault().LicensePlate)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Vehicles.FirstOrDefault().VehicleType)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Vehicles.FirstOrDefault().Make)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Vehicles.FirstOrDefault().Model)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Vehicles.FirstOrDefault().ArrivalTime)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model.Vehicles)
+		{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.LicensePlate)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.VehicleType)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Make)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Model)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.ArrivalTime)
+			</td>
+			<td>
+				<button type="submit" asp-action="CheckedOut" asp-route-id="@item.Id">Checkout</button>
+			</td>
+		</tr>
+		}
+	</tbody>
+</table>

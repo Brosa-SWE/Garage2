@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Garage2.Data;
+using Garage2.Models;
 
 namespace Garage2
 {
@@ -26,7 +27,7 @@ namespace Garage2
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllersWithViews();
-
+			services.AddScoped<IParkedVehicle, ParkedVehicle>();
 		    services.AddDbContext<Garage2Context>(options =>
 		            options.UseSqlServer(Configuration.GetConnectionString("Garage2Context")));
 		}
