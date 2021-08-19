@@ -9,7 +9,7 @@ namespace Garage2
     {
         Unknown,
         Car,
-        Motorcyckle,
+        Motorcycle,
         Bus,
         Boat,
         Truck
