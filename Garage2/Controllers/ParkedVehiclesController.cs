@@ -77,18 +77,21 @@ namespace Garage2.Controllers
 			{
 				var parkedVehicle = await _context.ParkedVehicle.FirstOrDefaultAsync(m => m.Id == id);
 				if (parkedVehicle != null) {
-					parkedVehicle.State = Globals.CheckOutState;
-					parkedVehicle.DepartureTime = DateTime.Now;
-					_context.Update(parkedVehicle);
-					await _context.SaveChangesAsync();
-					int parkMinutes = (int)(parkedVehicle.DepartureTime - parkedVehicle.ArrivalTime).TotalMinutes;
-					int amount = (int)(parkMinutes * Globals.ParkingPrice);
-					reciept.LicensePlate = parkedVehicle.LicensePlate;
-					reciept.CheckinTime = parkedVehicle.ArrivalTime.ToString();
-					reciept.CheckoutTime = parkedVehicle.DepartureTime.ToString();
-					reciept.ParkTime = (parkedVehicle.DepartureTime - parkedVehicle.ArrivalTime).ToString();
-					reciept.Amount = $" Toal minutes {parkMinutes} a {Globals.ParkingPrice} = {amount}";
-					return View(reciept);
+					if (parkedVehicle.State == Globals.CheckInState) {
+						parkedVehicle.State = Globals.CheckOutState;
+						parkedVehicle.DepartureTime = DateTime.Now;
+						_context.Update(parkedVehicle);
+						await _context.SaveChangesAsync();
+						int parkMinutes = (int)(parkedVehicle.DepartureTime - parkedVehicle.ArrivalTime).TotalMinutes;
+						int amount = (int)(parkMinutes * Globals.ParkingPrice);
+						reciept.LicensePlate = parkedVehicle.LicensePlate;
+						reciept.CheckinTime = parkedVehicle.ArrivalTime.ToString();
+						reciept.CheckoutTime = parkedVehicle.DepartureTime.ToString();
+						reciept.ParkTime = (parkedVehicle.DepartureTime - parkedVehicle.ArrivalTime).ToString();
+						reciept.Amount = $" Toal minutes {parkMinutes} a {Globals.ParkingPrice} = {amount}";
+						return View(reciept);
+					}
+					return View("CheckOutError");
 				}
 			}
 			return RedirectToAction(nameof(Index));
