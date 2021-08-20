@@ -72,7 +72,6 @@ namespace Garage2.Controllers
 //		[HttpPost]
 		public async Task<IActionResult> CheckOut(int? id)
 		{
-			double minuteprice = 0.99;	// 0.99 kr / minute
 			var reciept = new CheckOutViewModel();
 			if (id != null)
 			{
@@ -83,12 +82,12 @@ namespace Garage2.Controllers
 					_context.Update(parkedVehicle);
 					await _context.SaveChangesAsync();
 					int parkMinutes = (int)(parkedVehicle.DepartureTime - parkedVehicle.ArrivalTime).TotalMinutes;
-					int amount = (int)(parkMinutes * minuteprice);
+					int amount = (int)(parkMinutes * Globals.ParkingPrice);
 					reciept.LicensePlate = parkedVehicle.LicensePlate;
 					reciept.CheckinTime = parkedVehicle.ArrivalTime.ToString();
 					reciept.CheckoutTime = parkedVehicle.DepartureTime.ToString();
 					reciept.ParkTime = (parkedVehicle.DepartureTime - parkedVehicle.ArrivalTime).ToString();
-					reciept.Amount = $" Toal minutes {parkMinutes} a {minuteprice} = {amount}";
+					reciept.Amount = $" Toal minutes {parkMinutes} a {Globals.ParkingPrice} = {amount}";
 					return View(reciept);
 				}
 			}
