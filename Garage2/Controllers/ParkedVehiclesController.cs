@@ -18,6 +18,7 @@ namespace Garage2.Controllers
 
 		public ParkedVehiclesController(Garage2Context context)
 		{
+			// test - tom
 			_context = context;
 		}
 
@@ -87,6 +88,7 @@ namespace Garage2.Controllers
 			if (v.State == Globals.CheckInState)
 				found.Add(new SearchViewModel() { Id = v.Id, VehicleType = v.VehicleType, LicensePlate = v.LicensePlate, Make = v.Make, Model = v.Model, ArrivalTime = v.ArrivalTime.ToString(), ParkedTime = DateTime.Now.TimedDiffString(v.ArrivalTime) });;
 			}
+			/// test
 			return View(found);
 		}
 
