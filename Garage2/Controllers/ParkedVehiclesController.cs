@@ -87,8 +87,13 @@ namespace Garage2.Controllers
 						reciept.LicensePlate = parkedVehicle.LicensePlate;
 						reciept.CheckinTime = parkedVehicle.ArrivalTime.ToString();
 						reciept.CheckoutTime = parkedVehicle.DepartureTime.ToString();
-						reciept.ParkTime = (parkedVehicle.DepartureTime - parkedVehicle.ArrivalTime).ToString();
-						reciept.Amount = $" Toal minutes {parkMinutes} a {Globals.ParkingPrice} = {amount}";
+						int minutes = (int)(parkedVehicle.DepartureTime - parkedVehicle.ArrivalTime).TotalMinutes;
+						int hours = minutes / 60; minutes %= 60;
+						int days = hours / 24; hours %= 24;
+						if (days > 0) reciept.ParkTime = $"{days} Days {hours} Hours {minutes} Minutes";
+						else if (hours > 0) reciept.ParkTime = $"{hours} Hours {minutes} Minutes";
+						else reciept.ParkTime = $"{minutes} Minutes";
+						reciept.Amount = $"{parkMinutes} Minutes a {Globals.ParkingPrice} SEK/minute = {amount} SEK (incl moms)";
 						return View(reciept);
 					}
 				}
