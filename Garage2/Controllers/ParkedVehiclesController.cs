@@ -21,9 +21,9 @@ namespace Garage2.Controllers
         }
 
         // GET: ParkedVehicles
-        public async Task<IActionResult> Index()
+        public IActionResult Index(int? id)
         {
-            return View(await _context.ParkedVehicle.ToListAsync());
+            return View();
         }
 
 
