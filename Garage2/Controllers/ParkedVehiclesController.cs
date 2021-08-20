@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Garage2.Data;
 using Garage2.Models;
 using Garage2.ViewModels;
+using Garage2.Models.ViewModels;
 
 namespace Garage2.Controllers
 {
@@ -26,9 +27,29 @@ namespace Garage2.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Overview()
+        {
+            DateTime currentTime = DateTime.Now;
 
-		// GET: ParkedVehicles/Details/5
-		public async Task<IActionResult> Details(int? id)
+            var model = _context.ParkedVehicle.Select(p => new OverviewViewModel
+            {
+                Id = p.Id,
+                VehicleType = p.VehicleType,
+                LicensePlate = p.LicensePlate,
+                ArrivalTime = p.ArrivalTime,
+                ParkedTime = currentTime - p.ArrivalTime,
+                State = p.State
+            });
+
+            model = model.Where(m => m.State == Globals.CheckInState);
+
+               
+            return View( await model.ToListAsync());
+        }
+
+
+        // GET: ParkedVehicles/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
