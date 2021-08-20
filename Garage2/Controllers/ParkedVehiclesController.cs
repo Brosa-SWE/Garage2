@@ -51,37 +51,48 @@ namespace Garage2.Controllers
             return View();
         }
 
-		// TO BE CHANGED TO SEARCH
-		public async Task<IActionResult> CheckOut([Bind("LicensePlate")] ParkedVehicle vehicle)
+		// SEARCH
+		public async Task<IActionResult> Search([Bind("LicensePlate")] ParkedVehicle vehicle)
 		{
-			var checkout = new CheckOutViewModel();
-			var vehicles = new List<ParkedVehicle>();
-			
-			checkout.message = "";
+			var found = new List<SearchViewModel>();
+			IEnumerable<ParkedVehicle> result;
 			if ((vehicle != null) && (vehicle.LicensePlate != null) && (vehicle.LicensePlate.Length > 0))
 			{
-				checkout.Vehicles = await _context.ParkedVehicle.Where(v => v.LicensePlate.ToLower().Contains(vehicle.LicensePlate.ToLower())).ToListAsync();
+				result = await _context.ParkedVehicle.Where(v => v.LicensePlate.ToLower().Contains(vehicle.LicensePlate.ToLower())).ToListAsync();
 			}
-			else checkout.Vehicles = vehicles;
-			return View(checkout);
+			else result = await _context.ParkedVehicle.ToListAsync();
+			foreach (var v in result) {
+			if (v.State == "parked")
+				found.Add(new SearchViewModel() { Id = v.Id, VehicleType = v.VehicleType, LicensePlate = v.LicensePlate, Make = v.Make, Model = v.Model, ArrivalTime = v.ArrivalTime.ToString(), ParkedTime = (DateTime.Now - v.ArrivalTime).TotalHours.ToString() });
+			}
+			return View(found);
 		}
 
-		// TO HANDLE CHECKOUT AND SHOW RECIEPT
-		public async Task<IActionResult> CheckedOut(int? id)
+		// CHECKOUT
+//		[HttpPost]
+		public async Task<IActionResult> CheckOut(int? id)
 		{
-			if (id == null)
+			double minuteprice = 0.99;	// 0.99 kr / minute
+			var reciept = new CheckOutViewModel();
+			if (id != null)
 			{
-				return NotFound();
+				var parkedVehicle = await _context.ParkedVehicle.FirstOrDefaultAsync(m => m.Id == id);
+				if (parkedVehicle != null) {
+					parkedVehicle.State = "unparked";
+					parkedVehicle.DepartureTime = DateTime.Now;
+					_context.Update(parkedVehicle);
+					await _context.SaveChangesAsync();
+					int parkMinutes = (int)(parkedVehicle.DepartureTime - parkedVehicle.ArrivalTime).TotalMinutes;
+					int amount = (int)(parkMinutes * minuteprice);
+					reciept.LicensePlate = parkedVehicle.LicensePlate;
+					reciept.CheckinTime = parkedVehicle.ArrivalTime.ToString();
+					reciept.CheckoutTime = parkedVehicle.DepartureTime.ToString();
+					reciept.ParkTime = (parkedVehicle.DepartureTime - parkedVehicle.ArrivalTime).ToString();
+					reciept.Amount = $" Toal minutes {parkMinutes} a {minuteprice} = {amount}";
+					return View(reciept);
+				}
 			}
-
-			var parkedVehicle = await _context.ParkedVehicle
-				.FirstOrDefaultAsync(m => m.Id == id);
-			if (parkedVehicle == null)
-			{
-				return NotFound();
-			}
-
-			return View(parkedVehicle);
+			return RedirectToAction(nameof(Index));
 		}
 
 

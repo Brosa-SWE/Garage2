@@ -14,11 +14,13 @@ namespace Garage2.Models
 
 		// Removed constraints since this is now an ENUM
 		// Car, Motorcycle etc. 
+		[Display(Name = "Vehicle Type")]
 		public VehicleType VehicleType { get; set; }
 
 		// Added limit	
 		[StringLength(15)]
 		[Required]
+		[Display(Name = "License Plate")]
 		public string LicensePlate { get; set; }
 
 		// Changed to an enum instead
