@@ -62,7 +62,7 @@ namespace Garage2.Controllers
 			}
 			else result = await _context.ParkedVehicle.ToListAsync();
 			foreach (var v in result) {
-			if (v.State == "parked")
+			if (v.State == Globals.CheckInState)
 				found.Add(new SearchViewModel() { Id = v.Id, VehicleType = v.VehicleType, LicensePlate = v.LicensePlate, Make = v.Make, Model = v.Model, ArrivalTime = v.ArrivalTime.ToString(), ParkedTime = (DateTime.Now - v.ArrivalTime).TotalHours.ToString() });
 			}
 			return View(found);
@@ -77,7 +77,7 @@ namespace Garage2.Controllers
 			{
 				var parkedVehicle = await _context.ParkedVehicle.FirstOrDefaultAsync(m => m.Id == id);
 				if (parkedVehicle != null) {
-					parkedVehicle.State = "unparked";
+					parkedVehicle.State = Globals.CheckOutState;
 					parkedVehicle.DepartureTime = DateTime.Now;
 					_context.Update(parkedVehicle);
 					await _context.SaveChangesAsync();
