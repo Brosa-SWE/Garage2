@@ -105,8 +105,11 @@ namespace Garage2.Controllers
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckIn([Bind("Id,VehicleType,LicensePlate,Color,Make,Model,Wheels,ArrivalTime,State")] ParkedVehicle parkedVehicle)
+        public async Task<IActionResult> CheckIn([Bind("Id,VehicleType,LicensePlate,Color,Make,Model,Wheels")] ParkedVehicle parkedVehicle)
         {
+            parkedVehicle.ArrivalTime = DateTime.Now;
+            parkedVehicle.State = Globals.CheckInState;
+
             if (ModelState.IsValid)
             {
                 _context.Add(parkedVehicle);
