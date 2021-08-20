@@ -1,0 +1,12 @@
+﻿@{
+	ViewData["Title"] = "DEVELOP";
+}
+
+<div class="text-center">
+	<h1 class="display-4">Welcome Garage 2.0 (Dev)</h1>
+</div>
+
+<form asp-controller="ParkedVehicles" asp-action="CheckInRandomVehicles">
+	<input type="text" name="number" placeholder="Number of random vehicles" /><input type="submit" value="CheckIn" />
+</form>
+
