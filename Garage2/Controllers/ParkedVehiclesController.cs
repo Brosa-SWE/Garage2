@@ -159,17 +159,7 @@ namespace Garage2.Controllers
 			return View(parkedVehicle);
 		}
 
-		// POST: ParkedVehicles/Edit/5
-		// To protect from overposting attacks, enable the specific properties you want to bind to.
-		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int id, [Bind("Id,VehicleType,LicensePlate,Color,Make,Model,Wheels,ArrivalTime,State")] ParkedVehicle parkedVehicle)
-		{
-			if (id != parkedVehicle.Id)
-			{
-				return NotFound();
-			}
+	
         // POST: ParkedVehicles/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -205,9 +195,9 @@ namespace Garage2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details),new { id=id});
             }
-            return View(parkedVehicle);
+            return View("Overview");
         }
 
 		// GET: ParkedVehicles/Delete/5
