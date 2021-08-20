@@ -63,7 +63,7 @@ namespace Garage2.Controllers
 			else result = await _context.ParkedVehicle.ToListAsync();
 			foreach (var v in result) {
 			if (v.State == Globals.CheckInState)
-				found.Add(new SearchViewModel() { Id = v.Id, VehicleType = v.VehicleType, LicensePlate = v.LicensePlate, Make = v.Make, Model = v.Model, ArrivalTime = v.ArrivalTime.ToString(), ParkedTime = (DateTime.Now - v.ArrivalTime).TotalHours.ToString() });
+				found.Add(new SearchViewModel() { Id = v.Id, VehicleType = v.VehicleType, LicensePlate = v.LicensePlate, Make = v.Make, Model = v.Model, ArrivalTime = v.ArrivalTime.ToString(), ParkedTime = $"{((DateTime.Now - v.ArrivalTime).TotalHours)}" });;
 			}
 			return View(found);
 		}
@@ -91,8 +91,8 @@ namespace Garage2.Controllers
 						reciept.Amount = $" Toal minutes {parkMinutes} a {Globals.ParkingPrice} = {amount}";
 						return View(reciept);
 					}
-					return View("CheckOutError");
 				}
+				return View("CheckOutError");
 			}
 			return RedirectToAction(nameof(Index));
 		}
