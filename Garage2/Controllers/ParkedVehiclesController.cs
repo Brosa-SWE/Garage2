@@ -172,6 +172,11 @@ namespace Garage2.Controllers
             {
                 return NotFound();
             }
+            if (parkedVehicle.State == Globals.CheckOutState)
+            {
+
+                return NotFound();
+            }
 
             if (ModelState.IsValid)
             {
@@ -191,9 +196,9 @@ namespace Garage2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { id = id });
             }
-            return View(parkedVehicle);
+            return View(nameof(Overview));
         }
 
         // GET: ParkedVehicles/Delete/5
