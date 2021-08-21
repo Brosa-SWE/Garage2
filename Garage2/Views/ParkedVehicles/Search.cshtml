@@ -17,7 +17,7 @@
 			<th></th>
 		</tr>
 	</thead>
-	<tbody>
+	<tbody id="SortData">
 		@foreach (var item in Model)
 		{
 		<tr>
@@ -37,4 +37,7 @@
 		}
 	</tbody>
 </table>
-<script scr="~/js/site.js"></script>
+
+@if (Model.FirstOrDefault() == null) { 
+	<h3>Did not find any match</h3>
+}
