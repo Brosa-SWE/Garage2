@@ -25,7 +25,7 @@ namespace Garage2.Controllers
 		// GET: ParkedVehicles
 		public IActionResult Index(int? id)
 		{
-			if (Globals.AppInDevelopment) return View("IndexDev");
+			if (Globals.EnableRandomCheckIn) return View("IndexDev");
 			return View();
 		}
 
@@ -230,7 +230,7 @@ namespace Garage2.Controllers
 
 		public async Task<IActionResult> CheckInRandomVehicles(int number)
 		{
-			if (!Globals.AppInDevelopment) return RedirectToAction(nameof(Index));
+			if (!Globals.EnableRandomCheckIn) return RedirectToAction(nameof(Index));
 			Random rnd = new Random();
 			ParkedVehicle newVehicle, existVehicle;
 			int newvehicles = number, counter = 0;
