@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 
 namespace Garage2
 {
-    public enum VehicleColor
-    {
-        Unknown,
-        Red,
-        Blue,
-        Green,
-        White,
-        Black,
-        Yellow,
-        Grey,
-        Silver
-    }
+	public enum VehicleColor
+	{
+		Unknown,
+		Red,
+		Blue,
+		Green,
+		White,
+		Black,
+		Yellow,
+		Grey,
+		Silver
+	}
 }
