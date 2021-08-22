@@ -92,29 +92,23 @@ namespace Garage2.Controllers
 //		[HttpPost]
 		public async Task<IActionResult> CheckOut(int? id)
 		{
+			if (id == null) return RedirectToAction(nameof(Index));
+			var parkedVehicle = await _context.ParkedVehicle.FirstOrDefaultAsync(m => ((m.Id == id) && (m.State == Globals.CheckInState)));
+			if (parkedVehicle == null) return View("CheckOutError");
+
 			var reciept = new CheckOutViewModel();
-			if (id != null)
-			{
-				var parkedVehicle = await _context.ParkedVehicle.FirstOrDefaultAsync(m => m.Id == id);
-				if (parkedVehicle != null) {
-					if (parkedVehicle.State == Globals.CheckInState) {
-						parkedVehicle.State = Globals.CheckOutState;
-						parkedVehicle.DepartureTime = DateTime.Now;
-						_context.Update(parkedVehicle);
-						await _context.SaveChangesAsync();
-						int parkMinutes = (int)(parkedVehicle.DepartureTime - parkedVehicle.ArrivalTime).TotalMinutes;
-						int amount = (int)(parkMinutes * Globals.ParkingPrice);
-						reciept.LicensePlate = parkedVehicle.LicensePlate;
-						reciept.CheckinTime = parkedVehicle.ArrivalTime.ToString();
-						reciept.CheckoutTime = parkedVehicle.DepartureTime.ToString();
-						reciept.ParkTime = parkedVehicle.DepartureTime.TimedDiffString(parkedVehicle.ArrivalTime);						
-						reciept.Amount = $"Total price {amount} SEK (incl moms), at Rate {Globals.ParkingPrice} SEK/minute";
-						return View(reciept);
-					}
-				}
-				return View("CheckOutError");
-			}
-			return RedirectToAction(nameof(Index));
+			parkedVehicle.State = Globals.CheckOutState;
+			parkedVehicle.DepartureTime = DateTime.Now;
+			_context.Update(parkedVehicle);
+			await _context.SaveChangesAsync();
+			int parkMinutes = (int)(parkedVehicle.DepartureTime - parkedVehicle.ArrivalTime).TotalMinutes;
+			int amount = (int)(parkMinutes * Globals.ParkingPrice);
+			reciept.LicensePlate = parkedVehicle.LicensePlate;
+			reciept.CheckinTime = parkedVehicle.ArrivalTime.ToString();
+			reciept.CheckoutTime = parkedVehicle.DepartureTime.ToString();
+			reciept.ParkTime = parkedVehicle.DepartureTime.TimedDiffString(parkedVehicle.ArrivalTime);						
+			reciept.Amount = $"Total price {amount} SEK (incl moms), at Rate {Globals.ParkingPrice} SEK/minute";
+			return View(reciept);
 		}
 
 
