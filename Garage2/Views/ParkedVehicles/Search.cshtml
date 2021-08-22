@@ -8,16 +8,16 @@
 <table class="table">
 	<thead>
 		<tr>
-			<th>@Html.DisplayNameFor(model => model.LicensePlate)</th>
-			<th>@Html.DisplayNameFor(model => model.VehicleType)</th>
-			<th>@Html.DisplayNameFor(model => model.Make)</th>
-			<th>@Html.DisplayNameFor(model => model.Model)</th>
-			<th>@Html.DisplayNameFor(model => model.ArrivalTime)</th>
-			<th>@Html.DisplayNameFor(model => model.ParkedTime)</th>
+			<th id="sort-lp">@Html.DisplayNameFor(model => model.LicensePlate)</th>
+			<th id="sort-vt">@Html.DisplayNameFor(model => model.VehicleType)</th>
+			<th id="sort-mk">@Html.DisplayNameFor(model => model.Make)</th>
+			<th id="sort-md">@Html.DisplayNameFor(model => model.Model)</th>
+			<th id="sort-at">@Html.DisplayNameFor(model => model.ArrivalTime)</th>
+			<th id="sort-pt">@Html.DisplayNameFor(model => model.ParkedTime)</th>
 			<th></th>
 		</tr>
 	</thead>
-	<tbody id="SortData">
+	<tbody id="sort-data">
 		@foreach (var item in Model)
 		{
 		<tr>
@@ -39,5 +39,5 @@
 </table>
 
 @if (Model.FirstOrDefault() == null) { 
-	<h3>Did not find any match</h3>
+	<p>Did not find any match</p>
 }
