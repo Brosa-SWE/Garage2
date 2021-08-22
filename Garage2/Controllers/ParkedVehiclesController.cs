@@ -80,15 +80,11 @@ namespace Garage2.Controllers
 			var found = new List<SearchViewModel>();
 			IEnumerable<ParkedVehicle> result;
 			if ((vehicle != null) && (vehicle.LicensePlate != null) && (vehicle.LicensePlate.Length > 0))
-			{
-				result = await _context.ParkedVehicle.Where(v => v.LicensePlate.ToLower().Contains(vehicle.LicensePlate.ToLower())).ToListAsync();
-			}
+				result = await _context.ParkedVehicle.Include(v => v.State == Globals.CheckInState).Where(v => v.LicensePlate.ToLower().Contains(vehicle.LicensePlate.ToLower())).ToListAsync();
 			else result = await _context.ParkedVehicle.ToListAsync();
 			foreach (var v in result) {
-			if (v.State == Globals.CheckInState)
 				found.Add(new SearchViewModel() { Id = v.Id, VehicleType = v.VehicleType, LicensePlate = v.LicensePlate, Make = v.Make, Model = v.Model, ArrivalTime = v.ArrivalTime.ToString(), ParkedTime = DateTime.Now.TimedDiffString(v.ArrivalTime) });;
 			}
-			/// test
 			return View(found);
 		}
 
