@@ -15,6 +15,7 @@ namespace Garage2.Models
 
 		// Removed constraints since this is now an ENUM
 		// Car, Motorcycle etc.
+		[Required]
 		public VehicleType VehicleType { get; set; }
 
 		// Added limit	

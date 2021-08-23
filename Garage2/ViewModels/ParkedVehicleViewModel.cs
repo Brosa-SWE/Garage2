@@ -17,6 +17,8 @@ namespace Garage2.ViewModels
 		// Removed constraints since this is now an ENUM
 		// Car, Motorcycle etc. 
 		[Display(Name = "Vehicle Type - ViewModel")]
+		[Required]
+		[Range(1,20, ErrorMessage = "You must select a vehicle type")]
 		public VehicleType VehicleType { get; set; }
 
 		// Added limit	
