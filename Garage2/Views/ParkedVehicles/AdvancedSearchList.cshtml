@@ -45,19 +45,31 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ArrivalTime)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DepartureTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ParkedTime)
-            </td>
+
+            @if (item.State == Globals.CheckInState)
+            {
+                <td>-</td>
+                <td>-</td>
+ }
+            else
+            {
+                <td>@item.DepartureTime</td>
+                <td>
+                    @item.ParkedTime.Hours hr @item.ParkedTime.Minutes min @item.ParkedTime.Seconds sec
+                </td>
+            }
+
+
+
+
+
             <td>
                 @Html.DisplayFor(modelItem => item.State)
             </td>
             <td>
-                
+
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+               
             </td>
         </tr>
 }

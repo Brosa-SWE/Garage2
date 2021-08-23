@@ -67,6 +67,7 @@ namespace Garage2.Controllers
 				State = p.State
 			});
 
+			
 			model = string.IsNullOrWhiteSpace(Licence) ? 
 					model : 
 					model.Where(m => m.LicensePlate.StartsWith(Licence));
