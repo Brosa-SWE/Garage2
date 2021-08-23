@@ -1,0 +1,21 @@
+﻿@model Garage2.Models.ParkedVehicle
+
+@{
+    ViewData["Title"] = "AdvancedSearch";
+}
+
+<h1>Advanced Searchn</h1>
+
+<form asp-action="AdvancedSearchList">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="Licence" placeholder="Enter Licence Plate num" />
+        <div class="input-group-append">
+            <select name="VehicleT" asp-items="@Html.GetEnumSelectList<VehicleType>()" class="form-control">
+                <option selected="selected" value="">Please select</option>
+            </select>
+        </div>
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-search">&emsp;Search</i></button>
+        </div>
+    </div>
+</form>

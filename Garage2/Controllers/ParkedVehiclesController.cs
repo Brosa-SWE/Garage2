@@ -49,6 +49,35 @@ namespace Garage2.Controllers
 			return View( await model.ToListAsync());
 		}
 
+        public IActionResult AdvancedSearch() => View();
+
+        [HttpPost]
+		public async Task<IActionResult> AdvancedSearchList(string Licence, int? VehicleT)
+		{
+			
+
+			var model = _context.ParkedVehicle.Select(p => new AdvancedSearchViewModel
+			{
+				Id = p.Id,
+				VehicleType = p.VehicleType,
+				LicensePlate = p.LicensePlate,
+				ArrivalTime = p.ArrivalTime,
+				DepartureTime=p.DepartureTime,
+				ParkedTime = p.DepartureTime - p.ArrivalTime,
+				State = p.State
+			});
+
+			model = string.IsNullOrWhiteSpace(Licence) ? 
+					model : 
+					model.Where(m => m.LicensePlate.StartsWith(Licence));
+
+			model = VehicleT==null ? 
+					model:
+					model.Where(m => (int)m.VehicleType == VehicleT);
+
+			model = model.OrderBy(m => m.LicensePlate);
+			return View(await model.ToListAsync());
+		}
 
 		// GET: ParkedVehicles/Details/5
 		public async Task<IActionResult> Details(int? id)
@@ -262,12 +291,7 @@ namespace Garage2.Controllers
         }
 
 
-       
-    }
-		private bool ParkedVehicleExists(int id)
-		{
-			return _context.ParkedVehicle.Any(e => e.Id == id);
-		}
+      
 
 		public async Task<IActionResult> CheckInRandomVehicles(int number)
 		{
