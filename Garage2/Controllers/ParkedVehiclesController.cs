@@ -168,6 +168,7 @@ namespace Garage2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,VehicleType,LicensePlate,Color,Make,Model,Wheels,ArrivalTime,State")] ParkedVehicle parkedVehicle)
         {
+			
             if (id != parkedVehicle.Id)
             {
                 return NotFound();
@@ -184,6 +185,7 @@ namespace Garage2.Controllers
                 {
                     _context.Update(parkedVehicle);
                     await _context.SaveChangesAsync();
+					
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -196,7 +198,8 @@ namespace Garage2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Details),new { id=id});
+				TempData["msg"] = "Succesfully Edited";
+				return RedirectToAction(nameof(Details),new { id=id});
             }
             return View("Overview");
         }
