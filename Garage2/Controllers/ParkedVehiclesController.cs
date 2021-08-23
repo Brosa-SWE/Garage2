@@ -258,14 +258,6 @@ namespace Garage2.Controllers
 
         }
 
-
-       
-    }
-		private bool ParkedVehicleExists(int id)
-		{
-			return _context.ParkedVehicle.Any(e => e.Id == id);
-		}
-
 		public async Task<IActionResult> CheckInRandomVehicles(int number)
 		{
 			if (!Globals.AppInDevelopment) return RedirectToAction(nameof(Index));
