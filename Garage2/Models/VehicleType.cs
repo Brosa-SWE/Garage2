@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 
 namespace Garage2
 {
-    public enum VehicleType
-    {
-        Unknown,
-        Car,
-        Motorcycle,
-        Bus,
-        Boat,
-        Truck
+	public enum VehicleType
+	{
+		Unknown,
+		Car,
+		Motorcycle,
+		Bus,
+		Boat,
+		Truck
 
-    }
+	}
 }

@@ -25,7 +25,7 @@ namespace Garage2.ViewModels
 		[Display(Name = "Arrived Time")]
 		public string ArrivalTime { get; set; }
 
-		[Display(Name = "Parked Hours")]
+		[Display(Name = "Parked Time")]
 		public string ParkedTime { get; set; }
 
 	}

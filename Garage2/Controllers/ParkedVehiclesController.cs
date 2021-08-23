@@ -25,7 +25,7 @@ namespace Garage2.Controllers
 		// GET: ParkedVehicles
 		public IActionResult Index(int? id)
 		{
-			if (Globals.AppInDevelopment) return View("IndexDev");
+			if (Globals.EnableRandomCheckIn) return View("IndexDev");
 			return View();
 		}
 
@@ -110,45 +110,37 @@ namespace Garage2.Controllers
 			var found = new List<SearchViewModel>();
 			IEnumerable<ParkedVehicle> result;
 			if ((vehicle != null) && (vehicle.LicensePlate != null) && (vehicle.LicensePlate.Length > 0))
-			{
-				result = await _context.ParkedVehicle.Where(v => v.LicensePlate.ToLower().Contains(vehicle.LicensePlate.ToLower())).ToListAsync();
-			}
-			else result = await _context.ParkedVehicle.ToListAsync();
+				result = await _context.ParkedVehicle.Where(v => ((v.State == Globals.CheckInState) && (v.LicensePlate.ToLower().Contains(vehicle.LicensePlate.ToLower())))).ToListAsync();
+			else result = await _context.ParkedVehicle.Where(v => v.State == Globals.CheckInState).ToListAsync();
 			foreach (var v in result) {
-			if (v.State == Globals.CheckInState)
 				found.Add(new SearchViewModel() { Id = v.Id, VehicleType = v.VehicleType, LicensePlate = v.LicensePlate, Make = v.Make, Model = v.Model, ArrivalTime = v.ArrivalTime.ToString(), ParkedTime = DateTime.Now.TimedDiffString(v.ArrivalTime) });;
 			}
-			/// test
 			return View(found);
 		}
 
 		// CHECKOUT
-//		[HttpPost]
-		public async Task<IActionResult> CheckOut(int? id)
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> CheckOut([Bind("LicensePlate")] ParkedVehicle vehicle)
 		{
+			if (vehicle == null) return RedirectToAction(nameof(Index));
+			if (vehicle.LicensePlate == null) return RedirectToAction(nameof(Index));
+			var parkedVehicle = await _context.ParkedVehicle.FirstOrDefaultAsync(m => ((m.LicensePlate == vehicle.LicensePlate) && (m.State == Globals.CheckInState)));
+			if (parkedVehicle == null) return View("CheckOutError");
+
 			var reciept = new CheckOutViewModel();
-			if (id != null)
-			{
-				var parkedVehicle = await _context.ParkedVehicle.FirstOrDefaultAsync(m => m.Id == id);
-				if (parkedVehicle != null) {
-					if (parkedVehicle.State == Globals.CheckInState) {
-						parkedVehicle.State = Globals.CheckOutState;
-						parkedVehicle.DepartureTime = DateTime.Now;
-						_context.Update(parkedVehicle);
-						await _context.SaveChangesAsync();
-						int parkMinutes = (int)(parkedVehicle.DepartureTime - parkedVehicle.ArrivalTime).TotalMinutes;
-						int amount = (int)(parkMinutes * Globals.ParkingPrice);
-						reciept.LicensePlate = parkedVehicle.LicensePlate;
-						reciept.CheckinTime = parkedVehicle.ArrivalTime.ToString();
-						reciept.CheckoutTime = parkedVehicle.DepartureTime.ToString();
-						reciept.ParkTime = parkedVehicle.DepartureTime.TimedDiffString(parkedVehicle.ArrivalTime);						
-						reciept.Amount = $"Total price {amount} SEK (incl moms), at Rate {Globals.ParkingPrice} SEK/minute";
-						return View(reciept);
-					}
-				}
-				return View("CheckOutError");
-			}
-			return RedirectToAction(nameof(Index));
+			parkedVehicle.State = Globals.CheckOutState;
+			parkedVehicle.DepartureTime = DateTime.Now;
+			_context.Update(parkedVehicle);
+			await _context.SaveChangesAsync();
+			int parkMinutes = (int)(parkedVehicle.DepartureTime - parkedVehicle.ArrivalTime).TotalMinutes;
+			int amount = (int)(parkMinutes * Globals.ParkingPrice);
+			reciept.LicensePlate = parkedVehicle.LicensePlate;
+			reciept.CheckinTime = parkedVehicle.ArrivalTime.ToString();
+			reciept.CheckoutTime = parkedVehicle.DepartureTime.ToString();
+			reciept.ParkTime = parkedVehicle.DepartureTime.TimedDiffString(parkedVehicle.ArrivalTime);						
+			reciept.Amount = $"Total price {amount} SEK (incl moms), at Rate {Globals.ParkingPrice} SEK/minute";
+			return View(reciept);
 		}
 
 
@@ -190,48 +182,48 @@ namespace Garage2.Controllers
 		}
 
 	
-        // POST: ParkedVehicles/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,VehicleType,LicensePlate,Color,Make,Model,Wheels,ArrivalTime,State")] ParkedVehicle parkedVehicle)
-        {
+		// POST: ParkedVehicles/Edit/5
+		// To protect from overposting attacks, enable the specific properties you want to bind to.
+		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(int id, [Bind("Id,VehicleType,LicensePlate,Color,Make,Model,Wheels,ArrivalTime,State")] ParkedVehicle parkedVehicle)
+		{
 			
-            if (id != parkedVehicle.Id)
-            {
-                return NotFound();
-            }
-            if (parkedVehicle.State == Globals.CheckOutState)
-            {
+			if (id != parkedVehicle.Id)
+			{
+				return NotFound();
+			}
+			if (parkedVehicle.State == Globals.CheckOutState)
+			{
 
-                return NotFound();
-            }
+				return NotFound();
+			}
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(parkedVehicle);
-                    await _context.SaveChangesAsync();
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					_context.Update(parkedVehicle);
+					await _context.SaveChangesAsync();
 					
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ParkedVehicleExists(parkedVehicle.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+				}
+				catch (DbUpdateConcurrencyException)
+				{
+					if (!ParkedVehicleExists(parkedVehicle.Id))
+					{
+						return NotFound();
+					}
+					else
+					{
+						throw;
+					}
+				}
 				TempData["msg"] = "Succesfully Edited";
 				return RedirectToAction(nameof(Details),new { id=id});
-            }
-            return View("Overview");
-        }
+			}
+			return View("Overview");
+		}
 
 		// GET: ParkedVehicles/Delete/5
 		public async Task<IActionResult> Delete(int? id)
@@ -262,17 +254,18 @@ namespace Garage2.Controllers
 			return RedirectToAction(nameof(Index));
 		}
 
-        private bool ParkedVehicleExists(int id)
-        {
-            return _context.ParkedVehicle.Any(e => e.Id == id);
-        }
+		private bool ParkedVehicleExists(int id)
+		{
+			return _context.ParkedVehicle.Any(e => e.Id == id);
+		}
 
         public async Task<IActionResult> CheckLicensePlate(string LicensePlate)
         {
-            // 
-            var vehicleModel = await _context.ParkedVehicle.FirstOrDefaultAsync(e => e.LicensePlate == LicensePlate);
+			// 
 
-            if (vehicleModel == null)
+			var vehicleModel = await _context.ParkedVehicle.FirstOrDefaultAsync(e => e.LicensePlate == LicensePlate);
+
+				if (vehicleModel == null)
             {
                 return Json(true);
             }
@@ -288,16 +281,15 @@ namespace Garage2.Controllers
                 }
             }
 
-        }
-
+		}
 
       
 
 		public async Task<IActionResult> CheckInRandomVehicles(int number)
 		{
-			if (!Globals.AppInDevelopment) return RedirectToAction(nameof(Index));
+			if (!Globals.EnableRandomCheckIn) return RedirectToAction(nameof(Index));
 			Random rnd = new Random();
-			ParkedVehicle newVehicle, existVehicle;
+			ParkedVehicle newVehicle;
 			int newvehicles = number, counter = 0;
 			if (newvehicles <= 0) return RedirectToAction(nameof(Index));
 			if (newvehicles > 100) newvehicles = 100;
@@ -310,8 +302,7 @@ namespace Garage2.Controllers
 				newVehicle.LicensePlate += (char)rnd.Next(65, 90);
 				newVehicle.LicensePlate += (char)rnd.Next(65, 90);
 				newVehicle.LicensePlate += rnd.Next(100, 999).ToString();
-				existVehicle = _context.ParkedVehicle.FirstOrDefault(p => p.LicensePlate.ToUpper() == newVehicle.LicensePlate.ToUpper());
-				if (existVehicle == null)
+				if (this.ParkedVehicleExist(newVehicle.LicensePlate) == null)
 				{
 					newVehicle.State = Globals.CheckInState;
 					newVehicle.VehicleType = (VehicleType)rnd.Next(minValue: 0, maxValue: (int)VehicleType.Truck);
@@ -337,6 +328,20 @@ namespace Garage2.Controllers
 			await _context.SaveChangesAsync();
 			if (counter > 0) return RedirectToAction(nameof(Search));
 			return RedirectToAction(nameof(Index));
+		}
+
+		private ParkedVehicle ParkedVehicleExist(string licensplate)
+		{
+			if (licensplate == null) return null;
+			var vehicle = _context.ParkedVehicle.FirstOrDefault(p => p.LicensePlate.ToUpper() == licensplate.ToUpper());
+			return vehicle;
+		}
+
+		private ParkedVehicle ParkedVehicleParked(string licensplate)
+		{
+			if (licensplate == null) return null;
+			var vehicle = _context.ParkedVehicle.FirstOrDefault(p => ((p.LicensePlate.ToUpper() == licensplate.ToUpper()) && (p.State == Globals.CheckInState)));
+			return vehicle;
 		}
 	}
 }
