@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Garage2.Models.ViewModels.OverviewViewModel>
+
+@{
+    ViewData["Title"] = "Overview";
+}
+
+<h1>Overview</h1>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LicensePlate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ArrivalTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParkedTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @item.VehicleType
+            </td>
+            <td>
+                @item.LicensePlate           
+            </td>
+            <td>
+                @item.ArrivalTime           
+            </td>
+            <td>
+                @item.ParkedTime.Hours hr @item.ParkedTime.Minutes min @item.ParkedTime.Seconds sec
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

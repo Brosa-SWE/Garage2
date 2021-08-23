@@ -27,7 +27,6 @@ namespace Garage2
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllersWithViews();
-			services.AddScoped<IParkedVehicle, ParkedVehicle>();
 		    services.AddDbContext<Garage2Context>(options =>
 		            options.UseSqlServer(Configuration.GetConnectionString("Garage2Context")));
 		}
