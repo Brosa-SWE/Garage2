@@ -89,11 +89,13 @@ namespace Garage2.Controllers
 		}
 
 		// CHECKOUT
-//		[HttpPost]
-		public async Task<IActionResult> CheckOut(int? id)
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> CheckOut([Bind("LicensePlate")] ParkedVehicle vehicle)
 		{
-			if (id == null) return RedirectToAction(nameof(Index));
-			var parkedVehicle = await _context.ParkedVehicle.FirstOrDefaultAsync(m => ((m.Id == id) && (m.State == Globals.CheckInState)));
+			if (vehicle == null) return RedirectToAction(nameof(Index));
+			if (vehicle.LicensePlate == null) return RedirectToAction(nameof(Index));
+			var parkedVehicle = await _context.ParkedVehicle.FirstOrDefaultAsync(m => ((m.LicensePlate == vehicle.LicensePlate) && (m.State == Globals.CheckInState)));
 			if (parkedVehicle == null) return View("CheckOutError");
 
 			var reciept = new CheckOutViewModel();

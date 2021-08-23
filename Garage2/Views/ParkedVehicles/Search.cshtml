@@ -29,8 +29,9 @@
 			<td>@Html.DisplayFor(modelItem => item.ParkedTime)</td>
 			<td><a asp-action="Details" asp-route-id="@item.Id">Details</a></td>
 			<td>
-				<form>
-					<input type="submit" value="Checkout" asp-controller="ParkedVehicles" asp-action="CheckOut" asp-route-id="@item.Id" />
+				<form method="post">
+					<input type="hidden" name="LicensePlate" value="@item.LicensePlate" />
+					<input type="submit" value="Checkout" asp-controller="ParkedVehicles" asp-action="CheckOut" />
 				</form>
 			</td>
 		</tr>
