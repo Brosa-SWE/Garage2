@@ -230,26 +230,27 @@ namespace Garage2.Controllers
 			return _context.ParkedVehicle.Any(e => e.Id == id);
 		}
 
-		public async Task<IActionResult> CheckLicensePlate(string LicensePlate)
-		{
+        public async Task<IActionResult> CheckLicensePlate(string LicensePlate)
+        {
 			// 
+
 			var vehicleModel = await _context.ParkedVehicle.FirstOrDefaultAsync(e => e.LicensePlate == LicensePlate);
 
-			if (vehicleModel == null)
-			{
-				return Json(true);
-			}
-			else
-			{
-				if (vehicleModel.State == Globals.CheckInState)
-				{
-				return Json("Vehicle with license plate " + LicensePlate + " is already parked.");
-				}
-				else
-				{
-					return Json(true);
-				}
-			}
+				if (vehicleModel == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                if (vehicleModel.State == Globals.CheckInState)
+                {
+                return Json("Vehicle with license plate " + LicensePlate + " is already parked.");
+                }
+                else
+                {
+                    return Json(true);
+                }
+            }
 
 		}
 
