@@ -240,10 +240,11 @@ namespace Garage2.Controllers
 
         public async Task<IActionResult> CheckLicensePlate(string LicensePlate)
         {
-            // 
-            var vehicleModel = await _context.ParkedVehicle.FirstOrDefaultAsync(e => e.LicensePlate == LicensePlate);
+			// 
 
-            if (vehicleModel == null)
+			var vehicleModel = await _context.ParkedVehicle.FirstOrDefaultAsync(e => e.LicensePlate == LicensePlate);
+
+				if (vehicleModel == null)
             {
                 return Json(true);
             }
