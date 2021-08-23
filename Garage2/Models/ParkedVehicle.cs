@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace Garage2.Models
 		[StringLength(15)]
 		[Required]
 		[Display(Name = "License Plate")]
+		[Remote(action: "CheckLicensePlate", controller: "ParkedVehicles")]
 		public string LicensePlate { get; set; }
 
 		// Changed to an enum instead

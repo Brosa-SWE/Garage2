@@ -57,9 +57,10 @@ namespace Garage2.Controllers
 			{
 				return NotFound();
 			}
-
+			
+			
 			var parkedVehicle = await _context.ParkedVehicle
-				.FirstOrDefaultAsync(m => m.Id == id);
+				.FirstOrDefaultAsync(m => m.Id == id && m.State == Globals.CheckInState);
 			if (parkedVehicle == null)
 			{
 				return NotFound();
@@ -151,40 +152,49 @@ namespace Garage2.Controllers
 			return View(parkedVehicle);
 		}
 
-		// POST: ParkedVehicles/Edit/5
-		// To protect from overposting attacks, enable the specific properties you want to bind to.
-		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int id, [Bind("Id,VehicleType,LicensePlate,Color,Make,Model,Wheels,ArrivalTime,State")] ParkedVehicle parkedVehicle)
-		{
-			if (id != parkedVehicle.Id)
-			{
-				return NotFound();
-			}
+	
+        // POST: ParkedVehicles/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,VehicleType,LicensePlate,Color,Make,Model,Wheels,ArrivalTime,State")] ParkedVehicle parkedVehicle)
+        {
+			
+            if (id != parkedVehicle.Id)
+            {
+                return NotFound();
+            }
+            if (parkedVehicle.State == Globals.CheckOutState)
+            {
 
-			if (ModelState.IsValid)
-			{
-				try
-				{
-					_context.Update(parkedVehicle);
-					await _context.SaveChangesAsync();
-				}
-				catch (DbUpdateConcurrencyException)
-				{
-					if (!ParkedVehicleExists(parkedVehicle.Id))
-					{
-						return NotFound();
-					}
-					else
-					{
-						throw;
-					}
-				}
-				return RedirectToAction(nameof(Index));
-			}
-			return View(parkedVehicle);
-		}
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(parkedVehicle);
+                    await _context.SaveChangesAsync();
+					
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ParkedVehicleExists(parkedVehicle.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+				TempData["msg"] = "Succesfully Edited";
+				return RedirectToAction(nameof(Details),new { id=id});
+            }
+            return View("Overview");
+        }
 
 		// GET: ParkedVehicles/Delete/5
 		public async Task<IActionResult> Delete(int? id)
@@ -215,10 +225,33 @@ namespace Garage2.Controllers
 			return RedirectToAction(nameof(Index));
 		}
 
-		private bool ParkedVehicleExists(int id)
-		{
-			return _context.ParkedVehicle.Any(e => e.Id == id);
-		}
+        private bool ParkedVehicleExists(int id)
+        {
+            return _context.ParkedVehicle.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> CheckLicensePlate(string LicensePlate)
+        {
+            // 
+            var vehicleModel = await _context.ParkedVehicle.FirstOrDefaultAsync(e => e.LicensePlate == LicensePlate);
+
+            if (vehicleModel == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                if (vehicleModel.State == Globals.CheckInState)
+                {
+                return Json("Vehicle with license plate " + LicensePlate + " is already parked.");
+                }
+                else
+                {
+                    return Json(true);
+                }
+            }
+
+        }
 
 		public async Task<IActionResult> CheckInRandomVehicles(int number)
 		{
@@ -247,7 +280,7 @@ namespace Garage2.Controllers
 					{
 						case 0: newVehicle.Make = "Saab"; newVehicle.Model = "900"; break;
 						case 1: newVehicle.Make = "Volvo"; newVehicle.Model = "V60s"; break;
-						case 2: newVehicle.Make = "Lamburghini"; newVehicle.Model = "SX"; break;
+						case 2: newVehicle.Make = "Lamborghini"; newVehicle.Model = "SX"; break;
 						case 3: newVehicle.Make = "BMW"; newVehicle.Model = "xi"; break;
 						case 4: newVehicle.Make = "Toyota"; newVehicle.Model = "Panda"; break;
 						case 5: newVehicle.Make = "Chrysler"; newVehicle.Model = "gt"; break;
