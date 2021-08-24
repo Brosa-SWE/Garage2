@@ -49,6 +49,8 @@ namespace Garage2.Models
 
 		// Parked or "Unparked / Removed from Garage" 
 		public String State { get; set; }
+		public String SlotsInUse { get; set; }
+
 
 	}
 }
