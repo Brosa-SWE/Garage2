@@ -90,7 +90,7 @@ namespace Garage2.Controllers
 			
 			
 			var parkedVehicle = await _context.ParkedVehicle
-				.FirstOrDefaultAsync(m => m.Id == id && m.State == Globals.CheckInState);
+				.FirstOrDefaultAsync(m => m.Id == id);
 			if (parkedVehicle == null)
 			{
 				return NotFound();
@@ -315,7 +315,7 @@ namespace Garage2.Controllers
 				if (this.ParkedVehicleExist(newVehicle.LicensePlate) == null)
 				{
 					newVehicle.State = Globals.CheckInState;
-					newVehicle.VehicleType = (VehicleType)rnd.Next(minValue: 0, maxValue: (int)VehicleType.Truck);
+					newVehicle.VehicleType = (VehicleType)rnd.Next(minValue: 1, maxValue: (int)VehicleType.Truck);
 					newVehicle.Wheels = rnd.Next(minValue: 1, maxValue: 8);
 					newVehicle.Color = (VehicleColor)rnd.Next(minValue: 0, maxValue: (int)VehicleColor.Silver);
 					switch (rnd.Next(0, 5))
