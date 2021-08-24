@@ -90,7 +90,7 @@ namespace Garage2.Controllers
 			
 			
 			var parkedVehicle = await _context.ParkedVehicle
-				.FirstOrDefaultAsync(m => m.Id == id && m.State == Globals.CheckInState);
+				.FirstOrDefaultAsync(m => m.Id == id);
 			if (parkedVehicle == null)
 			{
 				return NotFound();
