@@ -16,9 +16,6 @@ namespace Garage2.Data
 		}
 
 		public DbSet<Garage2.Models.ParkedVehicle> ParkedVehicle { get; set; }
-
-		public DbSet<Garage2.Models.GarageSlot> GarageSlot { get; set; }
-
 		
 	}
 }

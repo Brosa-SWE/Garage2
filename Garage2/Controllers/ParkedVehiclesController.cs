@@ -20,6 +20,7 @@ namespace Garage2.Controllers
 		{
 			// test - tom
 			_context = context;
+			SlotManager.Instace.ReadDB(_context);
 		}
 
 		// GET: ParkedVehicles
