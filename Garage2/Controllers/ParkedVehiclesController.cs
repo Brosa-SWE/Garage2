@@ -161,9 +161,18 @@ namespace Garage2.Controllers
 			{
 				_context.Add(parkedVehicle);
 				await _context.SaveChangesAsync();
-				return RedirectToAction(nameof(Index));
+
+				var confirmation = new CheckInConfirmationViewModel();
+
+				confirmation.LicensePlate = parkedVehicle.LicensePlate;
+				confirmation.CheckinTime = parkedVehicle.ArrivalTime.ToString();
+				return View("CheckInConfirmation", confirmation);
+				// return RedirectToAction(confirmation);
+
+				// return RedirectToAction(nameof(Index));
 			}
-			return View(parkedVehicle);
+
+			 return View(parkedVehicle);
 		}
 
 		// GET: ParkedVehicles/Edit/5

@@ -16,7 +16,6 @@ namespace Garage2.ViewModels
 
 		// Removed constraints since this is now an ENUM
 		// Car, Motorcycle etc. 
-		[Display(Name = "Vehicle Type - ViewModel")]
 		[Required]
 		[Range(1,20, ErrorMessage = "You must select a vehicle type")]
 		public VehicleType VehicleType { get; set; }
@@ -24,7 +23,6 @@ namespace Garage2.ViewModels
 		// Added limit	
 		[StringLength(15)]
 		[Required]
-		[Display(Name = "License Plate")]
 		[Remote(action: "CheckLicensePlate", controller: "ParkedVehicles")]
 		public string LicensePlate { get; set; }
 
@@ -47,11 +45,9 @@ namespace Garage2.ViewModels
 		public int Wheels { get; set; }
 
 		[DataType(DataType.Time)]
-		[Display(Name = "Arrived Time")]
 		public DateTime ArrivalTime { get; set; }
 
 		[DataType(DataType.Time)]
-		[Display(Name = "Departure Time")]
 		public DateTime DepartureTime { get; set; }
 
 		// Parked or "Unparked / Removed from Garage" 
