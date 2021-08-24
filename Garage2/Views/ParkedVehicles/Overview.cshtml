@@ -27,35 +27,27 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @item.VehicleType
-            </td>
-            <td>
-                @item.LicensePlate           
-            </td>
-            <td>
-                @item.ArrivalTime           
-            </td>
-            <td>
-                @item.ParkedTime.Hours hr @item.ParkedTime.Minutes min @item.ParkedTime.Seconds sec
-            </td>
-            <td>
-                <button type="button" class="btn btn-danger btn-xs">
-                    <span class="glyphicon glyphicon-search"></span> Search
-                </button>
-                <div class="btn-group btn-group-xs" role="group">
-                    <button type="button" class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id"><span class="glyphicon glyphicon-edit" aria-hidden="true">...</span> Edit</button>
-                    <button type="button" class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id"><span class="glyphicon glyphicon-search" aria-hidden="true">...</span> Details</button>
-                    <button type="button" class="btn btn-primary" asp-action="Delete" asp-route-id="@item.Id"><span class="glyphicon glyphicon-remove" aria-hidden="true">...</span> Delete</button>
-                </div>
-                <!--
-    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-    -->
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.VehicleType
+                </td>
+                <td>
+                    @item.LicensePlate
+                </td>
+                <td>
+                    @item.ArrivalTime
+                </td>
+                <td>
+                    @item.ParkedTime.Hours hr @item.ParkedTime.Minutes min @item.ParkedTime.Seconds sec
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
