@@ -10,7 +10,7 @@ using Garage2.Models;
 
 namespace Garage2.Controllers
 {
-    public class SlotManagerController : Controller, ISlotManager
+    public class SlotManagerController : Controller
     {
         private readonly Garage2Context _context;
 
@@ -157,15 +157,5 @@ namespace Garage2.Controllers
         {
             return _context.GarageSlot.Any(e => e.Id == id);
         }
-
-		public string GetSlotId(VehicleType vehicletype)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void ReturnSlotId(string slotid)
-		{
-			throw new NotImplementedException();
-		}
-	}
+    }
 }
