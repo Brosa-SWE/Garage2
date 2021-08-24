@@ -17,18 +17,19 @@ function enableSort() {
 	sortMd = document.querySelector("#sort-md");
 	sortAt = document.querySelector("#sort-at");
 	sortPt = document.querySelector("#sort-pt");
-	sortLp.addEventListener('mouseup', () => { sortLicensePlate(); });
-	sortVt.addEventListener('mouseup', () => { sortVehicleType(); });
-	sortMk.addEventListener('mouseup', () => { sortVehicleMake(); });
-	sortMd.addEventListener('mouseup', () => { sortVehicleModel(); });
-	sortAt.addEventListener('mouseup', () => { sortVehicleCheckIn(); });
-	sortPt.addEventListener('mouseup', () => { sortVehicleCheckIn(); });
+	sortLp.addEventListener('mouseup', () => { sortColumn(1); });
+	sortVt.addEventListener('mouseup', () => { sortColumn(3); });
+	sortMk.addEventListener('mouseup', () => { sortColumn(5); });
+	sortMd.addEventListener('mouseup', () => { sortColumn(7); });
+	sortAt.addEventListener('mouseup', () => { sortColumn(9); });
+	sortPt.addEventListener('mouseup', () => { sortColumnReverse(9); });
 }
 
-function sortLicensePlate() {
+
+function sortColumn(column) {
 	let list = [];
 	let s = function (a, b) {
-		return a.childNodes[1].textContent.toLowerCase().localeCompare(b.childNodes[1].textContent.toLowerCase());
+		return a.childNodes[column].textContent.toLowerCase().localeCompare(b.childNodes[column].textContent.toLowerCase());
 	}
 	let sortdata = document.querySelector("#sort-data").childNodes;
 	for (let i1 = 0; i1 < sortdata.length; i1++) {
@@ -38,10 +39,10 @@ function sortLicensePlate() {
 	for (let i1 = 0; i1 < list.length; i1++) { list[i1].parentNode.appendChild(list[i1]); }
 }
 
-function sortVehicleType() {
+function sortColumnReverse(column) {
 	let list = [];
 	let s = function (a, b) {
-		return a.childNodes[3].textContent.toLowerCase().localeCompare(b.childNodes[3].textContent.toLowerCase());
+		return b.childNodes[column].textContent.toLowerCase().localeCompare(a.childNodes[column].textContent.toLowerCase());
 	}
 	let sortdata = document.querySelector("#sort-data").childNodes;
 	for (let i1 = 0; i1 < sortdata.length; i1++) {
@@ -50,54 +51,6 @@ function sortVehicleType() {
 	list.sort(s);
 	for (let i1 = 0; i1 < list.length; i1++) { list[i1].parentNode.appendChild(list[i1]); }
 }
-
-
-
-
-
-
-function sortVehicleMake() {
-	let list = [];
-	let s = function (a, b) {
-		return a.childNodes[5].textContent.toLowerCase().localeCompare(b.childNodes[5].textContent.toLowerCase());
-	}
-	let sortdata = document.querySelector("#sort-data").childNodes;
-	for (let i1 = 0; i1 < sortdata.length; i1++) {
-		if (sortdata[i1].nodeName === "TR") list.push(sortdata[i1]);
-	}
-	list.sort(s);
-	for (let i1 = 0; i1 < list.length; i1++) { list[i1].parentNode.appendChild(list[i1]); }
-}
-
-
-function sortVehicleModel() {
-	let list = [];
-	let s = function (a, b) {
-		return a.childNodes[7].textContent.toLowerCase().localeCompare(b.childNodes[7].textContent.toLowerCase());
-	}
-	let sortdata = document.querySelector("#sort-data").childNodes;
-	for (let i1 = 0; i1 < sortdata.length; i1++) {
-		if (sortdata[i1].nodeName === "TR") list.push(sortdata[i1]);
-	}
-	list.sort(s);
-	for (let i1 = 0; i1 < list.length; i1++) { list[i1].parentNode.appendChild(list[i1]); }
-}
-
-
-function sortVehicleCheckIn() {
-	let list = [];
-	let s = function (a, b) {
-		return a.childNodes[9].textContent.toLowerCase().localeCompare(b.childNodes[9].textContent.toLowerCase());
-	}
-	let sortdata = document.querySelector("#sort-data").childNodes;
-	for (let i1 = 0; i1 < sortdata.length; i1++) {
-		if (sortdata[i1].nodeName === "TR") list.push(sortdata[i1]);
-	}
-	list.sort(s);
-	for (let i1 = 0; i1 < list.length; i1++) { list[i1].parentNode.appendChild(list[i1]); }
-}
-
-
 
 let sortLp = null; let sortVt = null; let sortMk = null; let sortMd = null; let sortAt = null;let sortPt = null;
 checkContext();
