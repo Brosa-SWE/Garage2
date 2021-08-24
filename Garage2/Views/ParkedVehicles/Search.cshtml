@@ -20,21 +20,21 @@
 	<tbody id="sort-data">
 		@foreach (var item in Model)
 		{
-		<tr>
-			<td>@Html.DisplayFor(modelItem => item.LicensePlate)</td>
-			<td>@Html.DisplayFor(modelItem => item.VehicleType)</td>
-			<td>@Html.DisplayFor(modelItem => item.Make)</td>
-			<td>@Html.DisplayFor(modelItem => item.Model)</td>
-			<td>@Html.DisplayFor(modelItem => item.ArrivalTime)</td>
-			<td>@Html.DisplayFor(modelItem => item.ParkedTime)</td>
-			<td><a asp-action="Details" asp-route-id="@item.Id">Details</a></td>
-			<td>
-				<form method="post">
-					<input type="hidden" name="LicensePlate" value="@item.LicensePlate" />
-					<input type="submit" value="Checkout" asp-controller="ParkedVehicles" asp-action="CheckOut" class="btn btn-primary" />
-				</form>
-			</td>
-		</tr>
+			<tr>
+				<td>@item.LicensePlate</td>
+				<td>@item.VehicleType</td>
+				<td>@item.Make</td>
+				<td>@item.Model</td>
+				<td>@item.ArrivalTime</td>
+				<td>@item.ParkedTime</td>
+				<td><a asp-action="Details" asp-route-id="@item.Id">Details</a></td>
+				<td>
+					<form method="post">
+						<input type="hidden" name="LicensePlate" value="@item.LicensePlate" />
+						<input type="submit" value="Checkout" asp-controller="ParkedVehicles" asp-action="CheckOut" class="btn btn-primary" />
+					</form>
+				</td>
+			</tr>
 		}
 	</tbody>
 </table>
