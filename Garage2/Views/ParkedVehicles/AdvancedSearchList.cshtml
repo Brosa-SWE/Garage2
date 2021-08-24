@@ -6,9 +6,8 @@
 
 <h1>AdvancedSearchList</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
+
 <table class="table">
     <thead>
         <tr>
@@ -34,44 +33,52 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.VehicleType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LicensePlate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ArrivalTime)
-            </td>
 
-            @if (item.State == Globals.CheckInState)
-            {
-                <td>-</td>
-                <td>-</td>
- }
-            else
-            {
-                <td>@item.DepartureTime</td>
+        @foreach (var item in Model)
+        {
+            <tr>
                 <td>
-                    @item.ParkedTime.Hours hr @item.ParkedTime.Minutes min @item.ParkedTime.Seconds sec
+                    @Html.DisplayFor(modelItem => item.VehicleType)
                 </td>
-            }
+                <td>
+                    @Html.DisplayFor(modelItem => item.LicensePlate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ArrivalTime)
+                </td>
+
+                @if (item.State == Globals.CheckInState)
+                {
+                    <td>-</td>
+                    <td>-</td>
+                }
+                else
+                {
+                    <td>@item.DepartureTime</td>
+                    <td>
+                        @item.ParkedTime.Hours hr @item.ParkedTime.Minutes min @item.ParkedTime.Seconds sec
+                    </td>
+                }
 
 
 
 
 
-            <td>
-                @Html.DisplayFor(modelItem => item.State)
-            </td>
-            <td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <td>
 
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-               
-            </td>
-        </tr>
-}
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@if (Model.FirstOrDefault() == null)
+{
+    <h5>Vehicle Not found</h5>
+}
+
+
