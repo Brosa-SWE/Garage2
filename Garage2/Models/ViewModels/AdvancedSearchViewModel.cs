@@ -11,6 +11,7 @@ namespace Garage2.Models.ViewModels
         public int Id { get; set; }
         public VehicleType VehicleType { get; set; }
         public string LicensePlate { get; set; }
+        public VehicleColor Color { get; set; }
         [Display(Name = "Parked From")]
         public DateTime ArrivalTime { get; set; }
         [Display(Name = "Parked To")]

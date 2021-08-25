@@ -53,7 +53,7 @@ namespace Garage2.Controllers
         public IActionResult AdvancedSearch() => View();
 
         [HttpPost]
-		public async Task<IActionResult> AdvancedSearchList(string Licence, int? VehicleT)
+		public async Task<IActionResult> AdvancedSearchList(string Licence, int? VehicleT, int? VehicleC)
 		{
 			
 
@@ -61,6 +61,7 @@ namespace Garage2.Controllers
 			{
 				Id = p.Id,
 				VehicleType = p.VehicleType,
+				Color=p.Color,
 				LicensePlate = p.LicensePlate,
 				ArrivalTime = p.ArrivalTime,
 				DepartureTime=p.DepartureTime,
@@ -73,10 +74,10 @@ namespace Garage2.Controllers
 					model : 
 					model.Where(m => m.LicensePlate.StartsWith(Licence));
 
-			model = VehicleT==null ? 
+			model = VehicleT==0 ? 
 					model:
 					model.Where(m => (int)m.VehicleType == VehicleT);
-
+			model = VehicleC == 0 ? model : model.Where(m => (int)m.Color == VehicleC);
 			model = model.OrderBy(m => m.LicensePlate);
 			return View(await model.ToListAsync());
 		}
