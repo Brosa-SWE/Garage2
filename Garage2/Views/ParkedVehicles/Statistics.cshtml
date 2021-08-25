@@ -34,9 +34,9 @@
                 <div class="col-lg-3 mb-4">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">No of wheels</h5>
+                            <h5 class="card-title">Vehicles Total</h5>
                             <p class="display-4">
-                                @Model.NoOfWheels
+                                @Model.NoTotalVehicles
                             </p>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                 <div class="col-lg-3 mb-4">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Some other stats</h5>
+							<h5 class="card-title">Number of Wheels</h5>
                             <p class="display-4">
                                 @Model.NoOfWheels
                             </p>
@@ -67,9 +67,9 @@
                 <div class="col-lg-3 mb-4">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Even more stats</h5>
+							<h5 class="card-title">Avarage Time (hrs)</h5>
                             <p class="display-4">
-                                @Model.NoOfWheels
+                                @Model.AvgParkingTime
                             </p>
                         </div>
                     </div>
@@ -81,7 +81,7 @@
         <hr />
 
         <div class="bg-light">
-            <canvas id="doughnutChart" height="75%"></canvas>
+            <canvas id="doughnutChart" height="75"></canvas>
         </div>
         <script>doughnutgraph(@Model.NoOfCars, @Model.NoOfMotorCycles, @Model.NoOfTrucks, @Model.NoOfBuses, @Model.NoOfBoats);</script>
 </div>

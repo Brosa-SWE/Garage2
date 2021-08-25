@@ -361,20 +361,39 @@ namespace Garage2.Controllers
 			return vehicle;
 		}
 
-		public IActionResult Statistics()
+		public async Task<IActionResult> Statistics()
         {
 			var stats = new StatisticsViewModel();
+			var parked = await _context.ParkedVehicle.Where(v => v.State == Globals.CheckInState).ToListAsync();
+			TimeSpan accumulatedtime = TimeSpan.Zero;
+			DateTime nowtime = DateTime.Now;
 
-			stats.NoOfCars = 32;
-			stats.NoOfMotorCycles = 7;
-			stats.NoOfTrucks = 11;
-			stats.NoOfBuses = 6;
-			stats.NoOfBoats = 2;
-			stats.NoTotalVehicles = 58;
+			stats.NoOfCars = 0;
+			stats.NoOfMotorCycles = 0;
+			stats.NoOfTrucks = 0;
+			stats.NoOfBuses = 0;
+			stats.NoOfBoats = 0;
+			stats.NoTotalVehicles = 0;
+			stats.NoOfWheels = 0;
+			stats.GarageTurnOver = 0;
 
-			stats.NoOfWheels = 200;
-			stats.GarageTurnOver = 32000;
-
+			foreach (var v in parked)
+			{
+				switch (v.VehicleType) {
+					case VehicleType.Car: stats.NoOfCars++; break;
+					case VehicleType.Motorcycle: stats.NoOfMotorCycles++; break;
+					case VehicleType.Truck: stats.NoOfTrucks++; break;
+					case VehicleType.Bus: stats.NoOfBuses++; break;
+					case VehicleType.Boat: stats.NoOfBoats++; break;
+				}
+				stats.NoTotalVehicles++;
+				stats.NoOfWheels += v.Wheels;
+				accumulatedtime += nowtime - v.ArrivalTime;
+			}
+			stats.GarageTurnOver = (int)(accumulatedtime.TotalMinutes * Globals.ParkingPrice);
+			if (stats.NoTotalVehicles > 0) accumulatedtime /= stats.NoTotalVehicles;
+			else accumulatedtime = TimeSpan.Zero;
+			stats.AvgParkingTime = (int)accumulatedtime.TotalHours;
 			return View("Statistics", stats);
 		}
 	}

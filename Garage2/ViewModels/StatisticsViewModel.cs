@@ -26,8 +26,8 @@ namespace Garage2.ViewModels
 		public int NoOfBoats { get; set; }
 		public int NoTotalVehicles { get; set; }
 		public int NoOfWheels { get; set; }
-        public int GarageTurnOver { get; set; }
-
+		public int GarageTurnOver { get; set; }
+		public int AvgParkingTime { get; set; }
 
     }
 }
