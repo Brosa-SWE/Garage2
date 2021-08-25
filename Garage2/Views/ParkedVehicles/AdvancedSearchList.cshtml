@@ -8,7 +8,7 @@
 
 
 
-<table class="table">
+<table class="table" style="border-collapse: collapse">
     <thead>
         <tr>
             <th>
@@ -16,6 +16,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LicensePlate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Color)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ArrivalTime)
@@ -37,11 +40,45 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.VehicleType)
+                <td class="imgtd">
+                    @switch (item.VehicleType)
+                    {
+                        case VehicleType._:
+                            break;
+                        case VehicleType.Car:
+
+                            <img src="@Url.Content("../img/car.jpg")" />
+                            break;
+                        case VehicleType.Motorcycle:
+
+                            <img src="@Url.Content("../img/motorbike.jpg")" />
+                            break;
+                        case VehicleType.Bus:
+
+                            <img src="@Url.Content("../img/bus.jpg")" />
+                            break;
+                        case VehicleType.Boat:
+
+
+                            <img src="@Url.Content("../img/boat.jpg")" />
+                            break;
+                        case VehicleType.Truck:
+                            <img src="@Url.Content("../img/truck.jpg")" />
+                            break;
+                        default:
+
+                            break;
+                    }
+
+
+
+
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.LicensePlate)
+                </td>
+                <td>
+                    @item.Color
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ArrivalTime)
@@ -69,7 +106,7 @@
                 </td>
                 <td>
 
-                    <a class="btn btn-primary" asp-action="Details"  asp-route-id="@item.Id">Details</a> 
+                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Details</a>
 
                 </td>
             </tr>

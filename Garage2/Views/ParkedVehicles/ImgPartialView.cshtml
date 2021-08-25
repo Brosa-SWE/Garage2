@@ -1,0 +1,30 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@switch (TempData["Veh"])
+{
+    case VehicleType._:
+        break;
+    case VehicleType.Car:
+
+        <img src="@Url.Content("../img/car.jpg")" />
+        break;
+    case VehicleType.Motorcycle:
+
+        <img src="@Url.Content("../img/motorbike.jpg")" />
+        break;
+    case VehicleType.Bus:
+
+        <img src="@Url.Content("../img/bus.jpg")" />
+        break;
+    case VehicleType.Boat:
+
+        <img src="@Url.Content("../img/boat.jpg")" />
+        break;
+    case VehicleType.Truck:
+        <img src="@Url.Content("../img/truck.jpg")" />
+        break;
+    default:
+
+        break;
+}
