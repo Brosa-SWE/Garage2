@@ -6,56 +6,83 @@
 
 <h1>Details</h1>
 
-<div>
+
     <h4>@TempData["msg"] Vehicle Information </h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VehicleType)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VehicleType)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LicensePlate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LicensePlate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Color)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Color)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Make)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Make)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Model)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Model)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Wheels)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Wheels)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ArrivalTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ArrivalTime)
-        </dd>
-      
-    </dl>
-</div>
-<div>
-    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> 
-    <a class="btn btn-primary" asp-action="Overview">Back to List</a>
-</div>
+    <div class="row">
+        <div class="col-6">
+            <dl class="row">
+                
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.LicensePlate)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.LicensePlate)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Color)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Color)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Make)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Make)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Model)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Model)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Wheels)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Wheels)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.ArrivalTime)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.ArrivalTime)
+                </dd>
+
+            </dl>
+        </div>
+        <div class="col-3 detimg">
+           
+            @switch (Model.VehicleType)
+            {
+                case VehicleType._:
+                    break;
+                case VehicleType.Car:                   
+                    <img src="@Url.Content("~/img/Car.jpg")" />
+                    break;
+                case VehicleType.Motorcycle:
+                    <img src="@Url.Content("~/img/Motorbike.jpg")" />
+                    break;
+                case VehicleType.Bus:
+                    <img src="@Url.Content("~/img/Bus.jpg")" />
+                    break;
+                case VehicleType.Boat:
+                    <img src="@Url.Content("~/img/Boat.jpg")" />
+                    break;
+                case VehicleType.Truck:
+                    <img src="@Url.Content("~/img/Truck.jpg")" />
+                    break;
+                default:
+                    break;
+            }
+
+        </div>
+
+    </div>
+    <div>
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+        <a class="btn btn-primary" asp-action="Overview">Back to List</a>
+    </div>
+
+

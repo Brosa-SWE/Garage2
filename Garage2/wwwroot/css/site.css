@@ -24,10 +24,18 @@ a {
   border-color: #1861ac;
 }
 
+.imgtd img {
+    height: 25px;
+    width: 40px;
+}
+.detimg img {
+    height: 200px;
+    width: 250px;
+}
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 @media (min-width: 768px) {
   html {
