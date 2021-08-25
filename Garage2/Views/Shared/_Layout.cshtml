@@ -11,7 +11,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-4">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="ParkedVehicles" asp-action="Index">Garage2</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -33,13 +33,16 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="ParkedVehicles" asp-action="Statistics"> Statistics </a>
                         </li>
                     </ul>
-                    <div class="col-xs-2 bg-warning">
-                        <form asp-controller="ParkedVehicles" asp-action="Search">
-                            <input type="text" name="LicensePlate" placeholder="Regnumber" />
-                            <input type="submit" value="Find Vehicle" class="btn btn-primary" />
-                        </form>
-                    </div>
-                </div>
+					<form asp-controller="ParkedVehicles" asp-action="Search">
+						<table>
+							<tr>
+								<td><input type="text" class="form-control" name="LicensePlate" placeholder="License Plate" /></td>
+								<td><input type="submit" value="Find Vehicle" class="btn btn-primary" /></td>
+							</tr>
+						</table>
+					</form>
+				</div>
+            </div>
         </nav>
     </header>
     <div class="container">
@@ -57,7 +60,6 @@
     <partial name="_ValidationScriptsPartial" />
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -20,13 +20,13 @@ namespace Garage2.Controllers
 		{
 			// test - tom
 			_context = context;
-			SlotManager.Instace.ReadDB(_context);
+			if(Globals.EnableRandomCheckIn) SlotManager.Instace.ReadDB(_context);
 		}
 
 		// GET: ParkedVehicles
 		public IActionResult Index(int? id)
 		{
-			if (Globals.EnableRandomCheckIn) return View("IndexDev");
+			if (Globals.EnableRandomCheckIn) return View("IndexDev", SlotManager.Instace.AllSlots());
 			return View();
 		}
 
@@ -332,8 +332,13 @@ namespace Garage2.Controllers
 					newVehicle.ArrivalTime = newVehicle.ArrivalTime.AddDays(-rnd.Next(0, 1));
 					newVehicle.ArrivalTime = newVehicle.ArrivalTime.AddHours(-rnd.Next(1, 3));
 					newVehicle.ArrivalTime = newVehicle.ArrivalTime.AddMinutes(-rnd.Next(1, 3600));
-					_context.Add(newVehicle);
-					counter++;
+					newVehicle.SlotsInUse = SlotManager.Instace.GetSlots(newVehicle.VehicleType);
+					if (newVehicle.SlotsInUse != null)
+					{
+						_context.Add(newVehicle);
+						counter++;
+					}
+					else break;	// as was not able to get a parking slot - expect garage to be near full
 				}
 			}
 			await _context.SaveChangesAsync();

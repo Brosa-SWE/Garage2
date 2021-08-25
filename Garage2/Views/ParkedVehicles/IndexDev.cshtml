@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<GarageSlot>
+
+@{
 	ViewData["Title"] = "DEVELOP";
 }
 
@@ -10,5 +12,12 @@
 	<input type="text" name="number" placeholder="Number of random vehicles" /><input type="submit" value="CheckIn" />
 </form>
 
-<a asp-controller="SlotManager" asp-action="Index">Slot Manager</a>
 
+@foreach (var sp in Model)
+{
+	<tr>
+		<td>@sp.SlotId</td>
+		<td>@sp.InUse</td>
+	</tr>
+	<br>
+}

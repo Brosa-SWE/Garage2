@@ -27,10 +27,10 @@
 				<td>@item.Model</td>
 				<td>@item.ArrivalTime</td>
 				<td>@item.ParkedTime</td>
-				<td><a asp-action="Details" asp-route-id="@item.Id">Details</a></td>
 				<td>
 					<form method="post">
 						<input type="hidden" name="LicensePlate" value="@item.LicensePlate" />
+						<input type="submit" value="Details" asp-controller="ParkedVehicles" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary" />
 						<input type="submit" value="Checkout" asp-controller="ParkedVehicles" asp-action="CheckOut" class="btn btn-primary" />
 					</form>
 				</td>
