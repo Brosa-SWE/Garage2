@@ -1,0 +1,88 @@
+﻿@model StatisticsViewModel
+
+
+<h1>Statistics</h1>
+
+<div>
+    <hr />
+
+    <!--
+    <dl class="row">
+               <dt class="col-sm-2">No of Cars:</dt>
+               <dd class="col-sm-10">@Model.NoOfCars</dd>
+               <dt class="col-sm-2">No of MotorCycles:</dt>
+               <dd class="col-sm-10">@Model.NoOfMotorCycles</dd>
+               <dt class="col-sm-2">No of Trucks:</dt>
+               <dd class="col-sm-10">@Model.NoOfTrucks</dd>
+               <dt class="col-sm-2">No of Buses:</dt>
+               <dd class="col-sm-10">@Model.NoOfBuses</dd>
+               <dt class="col-sm-2">No of Trucks:</dt>
+               <dd class="col-sm-10">@Model.NoOfBoats</dd>
+
+        <dt class="col-sm-2">No of NoOfWheels:</dt>
+        <dd class="col-sm-10">@Model.NoOfWheels</dd>
+        <dt class="col-sm-2">Current Garage Turnover:</dt>
+        <dd class="col-sm-10">@Model.GarageTurnOver kr</dd>
+    </dl>
+    -->
+
+        <hr />
+
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-3 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">No of wheels</h5>
+                            <p class="display-4">
+                                @Model.NoOfWheels
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Garage Turnover</h5>
+                            <p class="display-4">
+                                @Model.GarageTurnOver kr
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Some other stats</h5>
+                            <p class="display-4">
+                                @Model.NoOfWheels
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Even more stats</h5>
+                            <p class="display-4">
+                                @Model.NoOfWheels
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- End Row -->
+        </div> <!-- End Container -->
+
+        <hr />
+
+        <div class="bg-light">
+            <canvas id="doughnutChart" height="75%"></canvas>
+        </div>
+        <script>doughnutgraph(@Model.NoOfCars, @Model.NoOfMotorCycles, @Model.NoOfTrucks, @Model.NoOfBuses, @Model.NoOfBoats);</script>
+</div>
+
