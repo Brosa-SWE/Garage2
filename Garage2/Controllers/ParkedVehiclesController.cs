@@ -360,5 +360,22 @@ namespace Garage2.Controllers
 			var vehicle = _context.ParkedVehicle.FirstOrDefault(p => ((p.LicensePlate.ToUpper() == licensplate.ToUpper()) && (p.State == Globals.CheckInState)));
 			return vehicle;
 		}
+
+		public IActionResult Statistics()
+        {
+			var stats = new StatisticsViewModel();
+
+			stats.NoOfCars = 32;
+			stats.NoOfMotorCycles = 7;
+			stats.NoOfTrucks = 11;
+			stats.NoOfBuses = 6;
+			stats.NoOfBoats = 2;
+			stats.NoTotalVehicles = 58;
+
+			stats.NoOfWheels = 200;
+			stats.GarageTurnOver = 32000;
+
+			return View("Statistics", stats);
+		}
 	}
 }
