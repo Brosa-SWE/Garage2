@@ -41,10 +41,10 @@ namespace Garage2.Models
 		[Range(1, 6)]
 		public int Wheels { get; set; }
 
-		[DataType(DataType.Time)]
+		[DataType(DataType.DateTime)]		
 		public DateTime ArrivalTime { get; set; }
 
-		[DataType(DataType.Time)]
+		[DataType(DataType.DateTime)]
 		public DateTime DepartureTime { get; set; }
 
 		// Parked or "Unparked / Removed from Garage" 
